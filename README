@@ -1,0 +1,90 @@
+ =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+    CIS 120 Game Project README
+    PennKey: zhangall
+    =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
+    
+    ===================
+    =: Core Concepts :=
+    ===================
+    
+    - List the four core concepts, the features they implement, and why each feature
+      is an appropriate use of the concept. Incorporate the feedback you got after
+      submitting your proposal.
+    
+      1. 2D Array: I am using a 2D array to represent the game state of the board. This makes
+      sense because Connect 4 is played on a vertical board that looks like a grid.
+    
+      2. Modeling state using a collection: I am using a LinkedList to model the state of the
+      move history. This linked list tracks the player and the coordinates of their move in a String.
+      This makes sense because order matters, and a LinkedList works by appending something to the
+      end of it. Also, none of the entries can be identical because two pieces can never be in the 
+      same place.
+    
+      3. JUnit testable: I am using this to test my Connect 4 game separately from the GUI and the 
+      actual game file. This is useful in my case because Connect 4 does not need a GUI to run, and 
+      can be played by hard coding it. I can use this aspect of the game to test for wins and other
+      things that may happen in the game.
+    
+      4. File I/O: I am using this to create a leader board of winners and fewest total moves. I
+      can read from a file the previous game's leader board, insert the most recent game into the 
+      leader board, display it on the game, and overwrite it back into the file.
+    
+    =========================
+    =: Your Implementation :=
+    =========================
+    
+    - Provide an overview of each of the classes in your code, and what their
+      function is in the overall game.
+    
+    Board.java is the JPanel that has the board and is what the user will interact with. It also creates
+    an instance of LeaderBoard.java and runs it, because Board.java is the only class that has access to
+    the method that checks if the game is over and implements end-of-game functionalities.
+    
+    Connect4.java sets up the state for the board and move history, and has all the methods for playing a turn, 
+    checking for wins, and undoing moves. This is the class that I test in GameTest.java.
+    
+    Game.java has the runnable method and paints the rest of the GUI, aside from the board itself. 
+    
+    LeaderBoard.java is like Board.java except it is working on creating the leader board. It has the reader
+    and writer. It reads in from the file leaderBoard.txt and moves that information into a TreeMap. This map
+    stores the names and # of moves their game had. The TreeMap is able to sort the information. The writer 
+    adds a new entry into the TreeMap, removes pairings from the TreeMap in order, and overwrites them into 
+    the original .txt file. It also stores the new top 3 into a String array, however I couldn't get this part
+    to work. 
+    
+    - Were there any significant stumbling blocks while you were implementing your
+      game (related to your design, or otherwise)?
+      
+    I couldn't find a way to address when the column gets full. Due to the way I was checking for the row
+    to place the piece, I couldn't handle negative row indices effectively. If I had made the play turn 
+    method return a boolean, I could've better handled illegal moves.
+    
+    I also struggled with displaying the leader board. While I could see in my leaderBoard.txt file that 
+    my reader and writer were accurately storing and sorting high scores, I couldn't get the values to display
+    on my actual game. Thus, when you click on the leader board button after a game, it'll just have null entries.
+    I hoped to show my reader and writer worked through tests, but I couldn't think of a good way to do so.
+    
+    - Evaluate your design. Is there a good separation of functionality? How well is
+      private state encapsulated? What would you refactor, if given the chance?
+      
+      I think I did a good job separating the game itself from the display, however I wish I had better 
+      separated the leader board functionalities from the game board. If I could find a way to alert my 
+      leader board code that the game was over, instead of relying on Board.java's check win, I could extract my
+      leader board code/GUI into a separate file and handle reading, writing, and paining the GUI there. 
+      
+      I think I did a good job of encapsulating private state, I made sure to use lots of getter functions
+      to retrieve data between classes.
+    
+    
+    
+    ========================
+    =: External Resources :=
+    ========================
+    
+    - Cite any external resources (libraries, images, tutorials, etc.) that you may
+      have used while implementing your game.
+      1. https://docs.oracle.com/javase/tutorial/uiswing/components/panel.html and the other tutorials linked
+      on this page to figure out the basics of swing.
+      
+      2.https://web.mit.edu/6.005/www/sp14/psets/ps4/java-6-tutorial/components.html to visually identify what
+      I wanted.
